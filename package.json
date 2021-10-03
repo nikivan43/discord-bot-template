@@ -1,0 +1,14 @@
+{
+  "name": "dbottemplate",
+  "version": "1.0.0",
+  "description": "The template I've created for people to be easier to create discord bots.",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nikivan",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.1.0"
+  }
+}
