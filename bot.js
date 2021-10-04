@@ -1,9 +1,15 @@
-const { Client, Intents } = require('discord.js');
+const { Client, Intents, Collection } = require('discord.js');
 const config = require('./config.json');
+
 const fs = require('fs')
-client.commands = new Collection()
+
 
 const commandFolders = fs.readdirSync('./commands');
+
+const client = new Client({ intents: [Intents.FLAGS.GUILDS] }); //creating discord client
+
+client.commands = new Collection()
+
 
 for (const folder of commandFolders) { //loop that fethches all js files
 	const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
@@ -13,13 +19,11 @@ for (const folder of commandFolders) { //loop that fethches all js files
 	}
 }
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] }); //creating discord client
-
-client.once('ready', () => { //event when ready
+client.on('ready', () => { //event when ready
 	console.log('Your bot is up!');
 });
 
-client.once('message', async message =>{ //event when message has been sent
+client.on('message', async message =>{ //event when message has been sent
 	if (!message.content.startsWith(config.prefix) || message.author.bot) return; //checking if the message author is not bot and it starts with a prefix
 		const args = message.content.slice(config.prefix.length).trim().split(/ +/); //slicing message into arguments
 		const command = args.shift().toLowerCase();	
