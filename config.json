@@ -1,4 +1,4 @@
 {
-    "dtoken": "YOUR-TOKEN",
-    "prefix": ""
+    "dtoken": "YOUR-BOT-TOKEN",
+    "prefix": "YOUR-BOT-PREFIX"
 }
