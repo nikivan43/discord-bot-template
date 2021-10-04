@@ -1,11 +1,11 @@
 const { Client, Intents } = require('discord.js');
-const { dtoken } = require('./config.json');
+const config = require('./config.json');
 const fs = require('fs')
 client.commands = new Collection()
 
 const commandFolders = fs.readdirSync('./commands');
 
-for (const folder of commandFolders) {
+for (const folder of commandFolders) { //loop that fethches all js files
 	const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
 	for (const file of commandFiles) {
 		const command = require(`./commands/${folder}/${file}`);
@@ -13,14 +13,25 @@ for (const folder of commandFolders) {
 	}
 }
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS] }); //creating discord client
 
-client.once('ready', () => {
+client.once('ready', () => { //event when ready
 	console.log('Your bot is up!');
 });
 
-client.once('message', async message =>{
+client.once('message', async message =>{ //event when message has been sent
+	if (!message.content.startsWith(config.prefix) || message.author.bot) return; //checking if the message author is not bot and it starts with a prefix
+		const args = message.content.slice(config.prefix.length).trim().split(/ +/); //slicing message into arguments
+		const command = args.shift().toLowerCase();	
 
+		if (!client.commands.has(command)) return;
+
+		try {
+			client.commands.get(command).execute(client, message); //executing the command
+		} catch (error) {
+			console.error(error);
+			message.reply(`An error occurred when sending commands to the program!`);
+		}
 })
 
-client.login(dtoken)
+client.login(config.dtoken)
