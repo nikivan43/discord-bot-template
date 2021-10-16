@@ -23,7 +23,7 @@ client.on('ready', () => { //event when ready
 	console.log('Your bot is up!');
 });
 
-client.on('message', async message =>{ //event when message has been sent
+client.on('messageCreate', async message =>{ //event when message has been sent
 	if (!message.content.startsWith(config.prefix) || message.author.bot) return; //checking if the message author is not bot and it starts with a prefix
 		const args = message.content.slice(config.prefix.length).trim().split(/ +/); //slicing message into arguments
 		const command = args.shift().toLowerCase();	
